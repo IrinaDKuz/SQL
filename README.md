@@ -1,1 +1,1 @@
-![SQL](https://www.vinchin.com/res/img/upload/image/20221019/1666163519707200.jpg)
+![SQL](https://www.google.com/imgres?imgurl=https%3A%2F%2Fcdn.ucberkeleybootcamp.com%2Fwp-content%2Fuploads%2Fsites%2F106%2F2020%2F03%2FSQL-Coding-Class-San-Francisco-1.jpeg&tbnid=qV6Ur7iK7tdqrM&vet=12ahUKEwjo75ScwPL_AhUqiv0HHUvvD_0QMygGegUIARDRAQ..i&imgrefurl=https%3A%2F%2Fbootcamp.berkeley.edu%2Fresources%2Fcoding%2Flearn-sql%2F&docid=d5Eq6yIWZTEbXM&w=1140&h=440&q=sql%20images&ved=2ahUKEwjo75ScwPL_AhUqiv0HHUvvD_0QMygGegUIARDRAQ)
