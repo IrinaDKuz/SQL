@@ -28,7 +28,7 @@ pgAdmin - это популярное графическое средство а
 DBeaver - это универсальное средство администрирования баз данных и клиент SQL, которое поддерживает различные СУБД (системы управления базами данных). Он предоставляет графический интерфейс и набор инструментов для работы с различными типами баз данных.
 
 ## Основные SQL запросы с примерами
-1) Создание таблицы:
+1. Создание таблицы:
 ```
 CREATE TABLE customers (
   id SERIAL PRIMARY KEY,
@@ -50,7 +50,7 @@ CREATE TABLE customers (
 >
 > *FOREIGN KEY (name) REFERENCES orders (id) - определение внешнего ключа, который связывает столбец "name" в таблице "customers" со столбцом "id" в таблице "orders". Это означает, что значения в столбце "name" должны существовать в столбце "id" таблицы "orders", обеспечивая ссылочную целостность.*
 
-2) Вставка данных в таблицу:
+2. Вставка данных в таблицу:
 ```
 INSERT INTO customers (id, name, email)
 VALUES (1, 'John Doe', 'john@example.com');
@@ -61,45 +61,45 @@ SELECT 'employee' || generate_series(1, 70);
 ```
  > *Запрос generate_series(1, 70) создает серию чисел от 1 до 70, и для каждого числа выполняется вставка строки в таблицу "employees". Оператор || используется для конкатенации строки "employee" с числом из серии*
 
-3) Выборка всех данных из таблицы:
+3. Выборка всех данных из таблицы:
 ```
 SELECT * FROM customers;
 ```
-4) Выборка данных с условием:
+4. Выборка данных с условием:
 ```
 SELECT * FROM customers WHERE name = 'John Doe';
 ```
-5) Обновление таблицы
-  5.1) Добавление нового столбца в таблицу:
+5. Обновление таблицы
+  * Добавление нового столбца в таблицу:
 ```
   ALTER TABLE users
   ADD age INT;
 ```
-   5.2) Изменение типа данных столбца:
+  * Изменение типа данных столбца:
 ```
   ALTER TABLE users
   ALTER COLUMN age TYPE VARCHAR(10);
   ```
-  5.3) Изменение имени столбца:
+  * Изменение имени столбца:
   ```
   ALTER TABLE users
   RENAME COLUMN age TO age_group;
   ```
-  5.4) Удаление столбца из таблицы:
+  * Удаление столбца из таблицы:
   ```
   ALTER TABLE users
   DROP COLUMN age_group;
   ```
-  5.5) Добавление ограничения PRIMARY KEY:
+  * Добавление ограничения PRIMARY KEY:
   ```
   ALTER TABLE users
   ADD CONSTRAINT pk_users PRIMARY KEY (id);
   ```
-5) Обновление данных в таблице:
+5. Обновление данных в таблице:
 ```
 UPDATE customers SET email = 'johndoe@example.com' WHERE id = 1;
 ```
-6) Удаление таблицы/данных из таблицы:
+6. Удаление таблицы/данных из таблицы:
 ```
 DROP TABLE customers;
 ```
@@ -107,85 +107,85 @@ DROP TABLE customers;
 DELETE FROM customers WHERE id = 1;
 ```
 
-7) Группировка данных с использованием агрегатных функций:
+7. Группировка данных с использованием агрегатных функций:
 ```
 SELECT department, AVG(salary) AS average_salary
 FROM employees
 GROUP BY department;
 ```
-8) Объединение данных из нескольких таблиц:
+8. Объединение данных из нескольких таблиц:
 ```
 SELECT customers.name, orders.order_date
 FROM customers
 JOIN orders ON customers.id = orders.customer_id;
 ```
-9) Использование условий с оператором IN:
+9. Использование условий с оператором IN:
 ```
 SELECT * FROM products WHERE category IN ('Electronics', 'Clothing');
 ```
-10) Сортировка данных по возрастанию или убыванию:
+10. Сортировка данных по возрастанию или убыванию:
 ```
 SELECT * FROM customers ORDER BY name ASC; -- Сортировка по возрастанию
 SELECT * FROM customers ORDER BY name DESC; -- Сортировка по убыванию
 ```
-11) Использование оператора LIKE для поиска по шаблону:
+11. Использование оператора LIKE для поиска по шаблону:
 ```
 SELECT * FROM customers WHERE name LIKE 'J%'; -- Находит все имена, начинающиеся с 'J'
 SELECT * FROM customers WHERE email LIKE '%example.com'; -- Находит все email, заканчивающиеся на 'example.com'
 ```
-12) Использование агрегатных функций для вычисления сумм, средних значений и других статистических показателей:
+12. Использование агрегатных функций для вычисления сумм, средних значений и других статистических показателей:
 ```
 SELECT COUNT(*) AS total_customers FROM customers; -- Вычисление общего количества записей в таблице
 SELECT AVG(salary) AS average_salary FROM employees; -- Вычисление средней зарплаты
 SELECT MAX(price) AS max_price FROM products; -- Вычисление максимальной цены
 ```
-13) Использование оператора BETWEEN для выборки данных в заданном диапазоне:
+13. Использование оператора BETWEEN для выборки данных в заданном диапазоне:
 ```
 SELECT * FROM products WHERE price BETWEEN 10 AND 50; -- Выбирает все продукты с ценой от 10 до 50
 SELECT * FROM orders WHERE order_date BETWEEN '2022-01-01' AND '2022-12-31'; -- Выбирает все заказы в определенном периоде
 ```
-14) Использование функций для обработки строк и дат:
+14. Использование функций для обработки строк и дат:
 ```
 SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM employees; -- Объединяет значения двух столбцов в одну строку
 SELECT DATE_FORMAT(order_date, '%Y-%m-%d') AS formatted_date FROM orders; -- Форматирует дату в определенном формате
 ```
-15) Использование подзапросов для выполнения вложенных запросов:
+15. Использование подзапросов для выполнения вложенных запросов:
 ```
 SELECT * FROM products WHERE category_id IN (SELECT id FROM categories WHERE name = 'Electronics'); -- Выбирает все продукты из категории 'Electronics'
 SELECT * FROM employees WHERE department_id = (SELECT id FROM departments WHERE name = 'Sales'); -- Выбирает всех сотрудников из отдела 'Sales'
 ```
-16) Использование оператора DISTINCT для выборки уникальных значений:
+16. Использование оператора DISTINCT для выборки уникальных значений:
 ```
 SELECT DISTINCT category FROM products; -- Возвращает список уникальных категорий продуктов
 SELECT DISTINCT city FROM customers; -- Возвращает список уникальных городов клиентов
 ```
-17) Использование оператора JOIN для объединения данных из нескольких таблиц:
+17. Использование оператора JOIN для объединения данных из нескольких таблиц:
 ```
 SELECT customers.name, orders.order_date
 FROM customers
 JOIN orders ON customers.id = orders.customer_id;
 ```
-18) Использование условий NULL для проверки наличия или отсутствия значений:
+18. Использование условий NULL для проверки наличия или отсутствия значений:
 ```
 SELECT * FROM products WHERE description IS NULL; -- Выбирает продукты, у которых нет описания
 SELECT * FROM customers WHERE phone_number IS NOT NULL; -- Выбирает клиентов с указанным номером телефона
 ```
-19) Использование оператора IN для выборки данных из списка значений:
+19. Использование оператора IN для выборки данных из списка значений:
 ```
 SELECT * FROM products WHERE category IN ('Electronics', 'Clothing'); -- Выбирает продукты из категорий 'Electronics' и 'Clothing'
 SELECT * FROM orders WHERE customer_id IN (1, 2, 3); -- Выбирает заказы, принадлежащие клиентам с ID 1, 2 и 3
 ```
-20) Использование операторов AND и OR для создания составных условий:
+20. Использование операторов AND и OR для создания составных условий:
 ```
 SELECT * FROM products WHERE price > 50 AND category = 'Electronics'; -- Выбирает продукты из категории 'Electronics' с ценой выше 50
 SELECT * FROM customers WHERE city = 'New York' OR city = 'Los Angeles'; -- Выбирает клиентов из городов 'New York' или 'Los Angeles'
 ```
-21) Использование оператора LIMIT для ограничения количества возвращаемых строк:
+21. Использование оператора LIMIT для ограничения количества возвращаемых строк:
 ```
 SELECT * FROM products LIMIT 10; -- Возвращает только первые 10 продуктов из таблицы
 SELECT * FROM orders LIMIT 100, 50; -- Возвращает 50 заказов, начиная со 101-го заказа
 ```
-22) Использование оператора UNION для объединения таблиц вертикально:
+22. Использование оператора UNION для объединения таблиц вертикально:
 ```
 SELECT customer_name, email
 FROM Customers
@@ -193,7 +193,5 @@ UNION
 SELECT supplier_name, email
 FROM Suppliers;
 ```
-
-
 
 https://www.sql-ex.ru/ - сайт для отработки написания запросов
