@@ -92,7 +92,7 @@
       JSON: Тип данных, используемый для хранения и обработки данных в формате JSON.
       XML: Тип данных, используемый для хранения и обработки данных в формате XML.
 
-### ограничения данных в SQL
+### Ограничения данных в SQL:
 * Ограничение первичного ключа (PRIMARY KEY):
 Задает один или несколько столбцов таблицы в качестве первичного ключа, уникально идентифицирующего каждую запись в таблице.
 Предотвращает вставку дублирующихся значений или NULL значений в столбцы первичного ключа.
@@ -150,7 +150,7 @@ CREATE TABLE employees (
 );
 ```
 * **Внешний ключ (FOREIGN KEY):**
-Внешний ключ устанавливает связь между двумя таблицами на основе значений столбца (или столбцов) в одной таблице, которые ссылаются на значения столбца (или столбцов) в другой таблице.
+Внешний ключ служит для установления связи между двумя таблицами и указывает на столбец (или столбцы) в одной таблице, который ссылается на значения столбца (или столбцов) первичного ключа или уникального ограничения в другой таблице.
 Внешний ключ обеспечивает ссылочную целостность, гарантируя, что значения во внешнем ключе соответствуют значениям в связанном столбце первичного ключа.
 Внешний ключ может быть опциональным (NULL значения разрешены) или обязательным (NOT NULL), в зависимости от требований.
 При удалении или обновлении записей в таблице с первичным ключом, внешние ключи, ссылающиеся на эти записи, могут быть автоматически удалены или обновлены с использованием ограничения CASCADE.
@@ -237,93 +237,131 @@ SELECT * FROM customers WHERE name = 'John Doe';
 ```
 UPDATE customers SET email = 'johndoe@example.com' WHERE id = 1;
 ```
-6. Удаление таблицы/данных из таблицы:
+6. Удаление таблицы:
 ```
 DROP TABLE customers;
 ```
+* Удаление всех данных из таблицы, но оставляет ее структуру
+```
+TRUNCATE TABLE customers;
+```
+* Удаление строк данных из таблицы
 ```
 DELETE FROM customers WHERE id = 1;
 ```
+7. Использование оператора DISTINCT для выборки уникальных значений:
+```
+SELECT DISTINCT category FROM products; -- Возвращает список уникальных категорий продуктов
+SELECT DISTINCT city FROM customers; -- Возвращает список уникальных городов клиентов
+```
+8. Сортировка данных по возрастанию или убыванию ORDER BY:
+```
+SELECT * FROM customers ORDER BY name ASC; -- Сортировка по возрастанию
+SELECT * FROM customers ORDER BY name DESC; -- Сортировка по убыванию
+```
+9. Выборка данных с условиями WHERE:
+*  Использование операторов AND и OR для создания составных условий:
+```
+SELECT * FROM products WHERE price > 50 AND category = 'Electronics'; -- Выбирает продукты из категории 'Electronics' с ценой выше 50
+SELECT * FROM customers WHERE city = 'New York' OR city = 'Los Angeles'; -- Выбирает клиентов из городов 'New York' или 'Los Angeles'
 
-7. Группировка данных с использованием агрегатных функций:
+```
+*  Использование оператора IN:
+
+```
+SELECT * FROM products WHERE category IN ('Electronics', 'Clothing');
+```
+*  Использование оператора BETWEEN для выборки данных в заданном диапазоне:
+```
+SELECT * FROM products WHERE price BETWEEN 10 AND 50; -- Выбирает все продукты с ценой от 10 до 50
+SELECT * FROM orders WHERE order_date BETWEEN '2022-01-01' AND '2022-12-31'; -- Выбирает все заказы в определенном периоде
+```
+*  Использование оператора LIKE для поиска по шаблону:
+```
+SELECT * FROM customers WHERE name LIKE 'J%'; -- Находит все имена, начинающиеся с 'J'
+SELECT * FROM customers WHERE email LIKE '%example.com'; -- Находит все email, заканчивающиеся на 'example.com'
+```
+*  Использование условий NULL для проверки наличия или отсутствия значений:
+```
+SELECT * FROM products WHERE description IS NULL; -- Выбирает продукты, у которых нет описания
+SELECT * FROM customers WHERE phone_number IS NOT NULL; -- Выбирает клиентов с указанным номером телефона
+```
+*  Использование подзапросов для выполнения вложенных запросов:
+```
+SELECT * FROM products WHERE category_id IN (SELECT id FROM categories WHERE name = 'Electronics'); -- Выбирает все продукты из категории 'Electronics'
+SELECT * FROM employees WHERE department_id = (SELECT id FROM departments WHERE name = 'Sales'); -- Выбирает всех сотрудников из отдела 'Sales'
+```
+
+10. Выборка данных с условиями HAVING:
+    Оператор HAVING, в отличии от WHERE, используется с оператором GROUP BY для фильтрации **группированных данных**. Он применяет условие фильтрации к группам строк, созданным оператором GROUP BY, и позволяет фильтровать результаты на основе агрегатных функций
+```
+SELECT category, COUNT(*) as total_count
+FROM products
+GROUP BY category
+HAVING COUNT(*) > 5;
+```
+
+11. Группировка данных GROUP BY с использованием агрегатных функций:
 ```
 SELECT department, AVG(salary) AS average_salary
 FROM employees
 GROUP BY department;
 ```
-8. Объединение данных из нескольких таблиц:
+* Использование агрегатных функций SUM, COUNT, AVG, MAX, MIN для вычисления сумм, средних значений и других статистических показателей:
 ```
-SELECT customers.name, orders.order_date
-FROM customers
-JOIN orders ON customers.id = orders.customer_id;
-```
-9. Использование условий с оператором IN:
-```
-SELECT * FROM products WHERE category IN ('Electronics', 'Clothing');
-```
-10. Сортировка данных по возрастанию или убыванию:
-```
-SELECT * FROM customers ORDER BY name ASC; -- Сортировка по возрастанию
-SELECT * FROM customers ORDER BY name DESC; -- Сортировка по убыванию
-```
-11. Использование оператора LIKE для поиска по шаблону:
-```
-SELECT * FROM customers WHERE name LIKE 'J%'; -- Находит все имена, начинающиеся с 'J'
-SELECT * FROM customers WHERE email LIKE '%example.com'; -- Находит все email, заканчивающиеся на 'example.com'
-```
-12. Использование агрегатных функций для вычисления сумм, средних значений и других статистических показателей:
-```
+SELECT SUM(salary) AS sum_salary FROM employees; -- Вычисление суммарной зарплаты всех работников
 SELECT COUNT(*) AS total_customers FROM customers; -- Вычисление общего количества записей в таблице
 SELECT AVG(salary) AS average_salary FROM employees; -- Вычисление средней зарплаты
 SELECT MAX(price) AS max_price FROM products; -- Вычисление максимальной цены
+SELECT MIN(price) AS min_price FROM products; -- Вычисление минимальной цены
 ```
-13. Использование оператора BETWEEN для выборки данных в заданном диапазоне:
-```
-SELECT * FROM products WHERE price BETWEEN 10 AND 50; -- Выбирает все продукты с ценой от 10 до 50
-SELECT * FROM orders WHERE order_date BETWEEN '2022-01-01' AND '2022-12-31'; -- Выбирает все заказы в определенном периоде
-```
-14. Использование функций для обработки строк и дат:
-```
-SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM employees; -- Объединяет значения двух столбцов в одну строку
-SELECT DATE_FORMAT(order_date, '%Y-%m-%d') AS formatted_date FROM orders; -- Форматирует дату в определенном формате
-```
-15. Использование подзапросов для выполнения вложенных запросов:
-```
-SELECT * FROM products WHERE category_id IN (SELECT id FROM categories WHERE name = 'Electronics'); -- Выбирает все продукты из категории 'Electronics'
-SELECT * FROM employees WHERE department_id = (SELECT id FROM departments WHERE name = 'Sales'); -- Выбирает всех сотрудников из отдела 'Sales'
-```
-16. Использование оператора DISTINCT для выборки уникальных значений:
-```
-SELECT DISTINCT category FROM products; -- Возвращает список уникальных категорий продуктов
-SELECT DISTINCT city FROM customers; -- Возвращает список уникальных городов клиентов
-```
-17. Использование оператора JOIN для объединения данных из нескольких таблиц:
+
+13. Объединение данных из нескольких таблиц JOIN:
+* INNER JOIN:
+    * INNER JOIN возвращает только те строки, которые имеют совпадения в обоих таблицах, основываясь на условии объединения.
+    * INNER JOIN используется по умолчанию, если не указан другой тип JOIN.
 ```
 SELECT customers.name, orders.order_date
 FROM customers
 JOIN orders ON customers.id = orders.customer_id;
 ```
-18. Использование условий NULL для проверки наличия или отсутствия значений:
-```
-SELECT * FROM products WHERE description IS NULL; -- Выбирает продукты, у которых нет описания
-SELECT * FROM customers WHERE phone_number IS NOT NULL; -- Выбирает клиентов с указанным номером телефона
-```
-19. Использование оператора IN для выборки данных из списка значений:
-```
-SELECT * FROM products WHERE category IN ('Electronics', 'Clothing'); -- Выбирает продукты из категорий 'Electronics' и 'Clothing'
-SELECT * FROM orders WHERE customer_id IN (1, 2, 3); -- Выбирает заказы, принадлежащие клиентам с ID 1, 2 и 3
-```
-20. Использование операторов AND и OR для создания составных условий:
-```
-SELECT * FROM products WHERE price > 50 AND category = 'Electronics'; -- Выбирает продукты из категории 'Electronics' с ценой выше 50
-SELECT * FROM customers WHERE city = 'New York' OR city = 'Los Angeles'; -- Выбирает клиентов из городов 'New York' или 'Los Angeles'
-```
-21. Использование оператора LIMIT для ограничения количества возвращаемых строк:
-```
-SELECT * FROM products LIMIT 10; -- Возвращает только первые 10 продуктов из таблицы
-SELECT * FROM orders LIMIT 100, 50; -- Возвращает 50 заказов, начиная со 101-го заказа
-```
-22. Использование оператора UNION для объединения таблиц вертикально:
+* LEFT JOIN:
+    * LEFT JOIN возвращает все строки из левой (первой) таблицы и соответствующие строки из правой (второй) таблицы, основываясь на условии объединения.
+    * Если в правой таблице нет совпадающих строк, то значения для столбцов правой таблицы будут NULL.
+  
+* RIGHT JOIN:
+    * RIGHT JOIN возвращает все строки из правой (второй) таблицы и соответствующие строки из левой (первой) таблицы, основываясь на условии объединения.
+    * Если в левой таблице нет совпадающих строк, то значения для столбцов левой таблицы будут NULL.
+
+* FULL JOIN:
+    * FULL JOIN возвращает все строки из обеих таблиц и объединяет их на основе условия объединения.
+    * Если в одной из таблиц нет совпадающих строк, то значения для соответствующих столбцов будут NULL.
+  
+
+>* CROSS JOIN:
+>     * CROSS JOIN выполняет комбинаторное объединение всех строк из первой таблицы со всеми строками из второй таблицы, что приводит к получению декартова произведения двух таблиц.
+>     * CROSS JOIN не требует указания условия объединения, и результатом является полный набор комбинаций всех строк из обеих таблиц.
+>    ```
+>    SELECT table1.column1, table2.column2
+>    FROM table1
+>    CROSS JOIN table2;
+>    ```
+>    
+>* SELF JOIN:
+>     * SELF JOIN используется для объединения таблицы самой с собой. Это позволяет обрабатывать данные из одной таблицы в контексте других данных в той же таблице.
+>     * SELF JOIN требует указания псевдонимов таблицы для различения между первым и вторым вхождениями таблицы.
+>    ```
+>    SELECT t1.column1, t2.column2
+>    FROM table AS t1
+>    JOIN table AS t2 ON t1.common_column = t2.common_column;
+>    ```
+>    
+> * NATURAL JOIN:
+>     * NATURAL JOIN объединяет две таблицы на основе всех столбцов с одинаковыми именами. Он автоматически находит столбцы с одинаковыми именами в обеих таблицах и выполняет объединение по ним.
+>     * NATURAL JOIN может быть удобным, если структура данных в обеих таблицах хорошо соответствует друг другу.
+
+14. Использование оператора UNION для объединения таблиц вертикально:
+* UNION
 ```
 SELECT customer_name, email
 FROM Customers
@@ -331,5 +369,20 @@ UNION
 SELECT supplier_name, email
 FROM Suppliers;
 ```
+* UNION ALL
+    * Оператор UNION ALL сохраняет все строки из каждого SELECT запроса, включая возможные дубликаты. Если вы хотите удалить дубликаты из объединенного результата, вы можете использовать оператор UNION вместо UNION ALL.
+    
+15. Использование оператора LIMIT для ограничения количества возвращаемых строк:
+```
+SELECT * FROM products LIMIT 10; -- Возвращает только первые 10 продуктов из таблицы
+SELECT * FROM orders LIMIT 100, 50; -- Возвращает 50 заказов, начиная со 101-го заказа
+```
+
+16. Использование функций для обработки строк и дат:
+```
+SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM employees; -- Объединяет значения двух столбцов в одну строку
+SELECT DATE_FORMAT(order_date, '%Y-%m-%d') AS formatted_date FROM orders; -- Форматирует дату в определенном формате
+```
+
 
 https://www.sql-ex.ru/ - сайт для отработки написания запросов
